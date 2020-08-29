@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class SearchResultsItem extends AbstractUIObject {
+public class SearchResultsItem extends BaseProjectUIObject {
 
     @FindBy(xpath = "//span[text()='More']")
     private ExtendedWebElement moreBtn;
