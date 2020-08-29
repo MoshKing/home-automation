@@ -11,6 +11,7 @@ public class UserData {
     private String zipcode;
     private String country;
     private String mobilePhone;
+    private UserType userType;
 
     public String getEmail() {
         return email;
@@ -90,5 +91,13 @@ public class UserData {
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 }

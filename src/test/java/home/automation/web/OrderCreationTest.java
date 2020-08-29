@@ -2,30 +2,33 @@ package home.automation.web;
 
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import home.automation.BaseProjectTest;
-import home.automation.web.domain.ProductData;
-import home.automation.web.domain.ProductSize;
-import home.automation.web.domain.ProjectConstants;
-import home.automation.web.domain.UserData;
+import home.automation.web.domain.*;
 import home.automation.web.gui.pages.*;
 import home.automation.web.service.UserDataService;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 public class OrderCreationTest extends BaseProjectTest {
 
-    private final static String SEARCH_QUERY = "dress";
-    private final static int ITEM_INDEX_IN_SEARCH_RESULTS = 2;
-    private final static String ITEM_QTY = "2";
+    @DataProvider
+    public Object[][] getUserType() {
+        return new Object[][]{{UserType.NEW}, {UserType.REGISTERED}};
+    }
 
     @MethodOwner(owner = "dprymudrau")
-    @Test(description = "Create an order as guest user validate that product data the same on each stage of creation")
-    public void testGuestUserOrderCreation() {
-        UserData userData = UserDataService.generateNewUser();
+    @Test(dataProvider = "getUserType",
+            description = "Create an order and validate that product data the same on each stage of creation")
+    public void testGuestUserOrderCreation(UserType userType) {
+        UserData userData;
+        if (UserType.REGISTERED.equals(userType)) {
+            userData = UserDataService.getRegisteredUser();
+        } else {
+            userData = UserDataService.generateNewUser();
+        }
         SoftAssert softAssert = new SoftAssert();
 
-        HomePage homePage = new HomePage(getDriver());
-        homePage.open();
-        homePage.assertPageOpened();
+        HomePage homePage = openHomePage();
 
         //Search an item and open its' details
         SearchResultsPage searchResultsPage = homePage.searchProducts(SEARCH_QUERY);
@@ -39,9 +42,14 @@ public class OrderCreationTest extends BaseProjectTest {
 
         //Create a new user
         AuthorizationPage authPage = new AuthorizationPage(getDriver());
-        authPage.typeEmail(userData.getEmail());
-        AccountCreationPage accountCreationPage = authPage.clickCreateAnAccountBtn();
-        AddressesPage addressesPage = accountCreationPage.fillUserDataAndClickRegisterBtn(userData);
+        AddressesPage addressesPage;
+        if (UserType.REGISTERED.equals(userType)) {
+            addressesPage = authPage.signIn(userData);
+        } else {
+            authPage.typeNewUserEmail(userData.getEmail());
+            AccountCreationPage accountCreationPage = authPage.clickCreateAnAccountBtn();
+            addressesPage = accountCreationPage.fillUserDataAndClickRegisterBtn(userData);
+        }
 
         //Validate shipping info and go to PaymentPage
         addressesPage.verifyDeliveryAddress(softAssert, userData);
