@@ -43,7 +43,7 @@ public class UserDataService {
         userData.setState(R.TESTDATA.get(String.format(DEFAULT_USER_DATA_KEY, "state")));
         userData.setZipcode(R.TESTDATA.get(String.format(DEFAULT_USER_DATA_KEY, "zipcode")));
         userData.setCountry(R.TESTDATA.get(String.format(DEFAULT_USER_DATA_KEY, "country")));
-        userData.setMobilePhone(R.TESTDATA.get("mobile_phone1"));
+        userData.setMobilePhone(R.TESTDATA.get("phone_number1"));
         return userData;
     }
 

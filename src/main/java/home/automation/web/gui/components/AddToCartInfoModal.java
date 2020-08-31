@@ -1,9 +1,8 @@
 package home.automation.web.gui.components;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.gui.AbstractUIObject;
 import home.automation.web.domain.ProductData;
-import home.automation.web.domain.ProjectConstants;
+import home.automation.constant.ProjectConstants;
 import home.automation.web.gui.pages.CartPage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;

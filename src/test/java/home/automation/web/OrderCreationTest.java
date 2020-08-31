@@ -2,6 +2,7 @@ package home.automation.web;
 
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import home.automation.BaseProjectTest;
+import home.automation.constant.ProjectConstants;
 import home.automation.web.domain.*;
 import home.automation.web.gui.components.AddToCartInfoModal;
 import home.automation.web.gui.components.QuickViewModal;
@@ -62,6 +63,8 @@ public class OrderCreationTest extends BaseProjectTest {
         quickViewModal.typeQuantity(ITEM_QTY);
         quickViewModal.selectSize(ProductSize.MEDIUM);
         ProductData productData = quickViewModal.getProductData();
+
+        //Add product to cart from quick view
         AddToCartInfoModal addToCartInfoModal = quickViewModal.clickAddToBagBtn();
         pause(3);
         addToCartInfoModal.verifyProductData(softAssert, productData);
@@ -82,7 +85,8 @@ public class OrderCreationTest extends BaseProjectTest {
         } else {
             authPage.typeNewUserEmail(userData.getEmail());
             AccountCreationPage accountCreationPage = authPage.clickCreateAnAccountBtn();
-            addressesPage = accountCreationPage.fillUserDataAndClickRegisterBtn(userData);
+            accountCreationPage.fillUserDataAndClickRegisterBtn(userData);
+            addressesPage = new AddressesPage(getDriver());
         }
 
         //Validate shipping info and go to PaymentPage

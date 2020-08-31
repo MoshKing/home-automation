@@ -1,5 +1,7 @@
 package home.automation.web.domain;
 
+import home.automation.constant.ProjectConstants;
+
 public class ProductData {
 
     private String name;
