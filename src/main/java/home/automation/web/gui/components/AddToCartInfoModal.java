@@ -29,6 +29,7 @@ public class AddToCartInfoModal extends BaseProjectUIObject {
 
     public AddToCartInfoModal(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        setUiLoadedMarker(colorAndSizeText);
     }
 
     public CartPage clickProceedToCheckoutBtn() {

@@ -3,6 +3,8 @@ package home.automation.web;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
 import home.automation.BaseProjectTest;
 import home.automation.web.domain.*;
+import home.automation.web.gui.components.AddToCartInfoModal;
+import home.automation.web.gui.components.QuickViewModal;
 import home.automation.web.gui.pages.*;
 import home.automation.web.service.UserDataService;
 import org.testng.annotations.DataProvider;
@@ -40,6 +42,38 @@ public class OrderCreationTest extends BaseProjectTest {
         cartPage.getCartItem(0).verifyProductData(softAssert, productData);
         cartPage.clickProceedToCheckoutBtn();
 
+        createAnOrder(softAssert, userType, userData, productData);
+
+        softAssert.assertAll();
+    }
+
+    @MethodOwner(owner = "dprymudrau")
+    @Test(description = "Create an order by adding item to bag from quick view and validate that product data the same on each stage of creation")
+    public void addProductToCartAndCreateAnOrder() {
+        UserData userData = UserDataService.generateNewUser();
+
+        SoftAssert softAssert = new SoftAssert();
+
+        HomePage homePage = openHomePage();
+
+        //Search an item and open quick view
+        SearchResultsPage searchResultsPage = homePage.searchProducts(SEARCH_QUERY);
+        QuickViewModal quickViewModal = searchResultsPage.openQuickViewModal(ITEM_INDEX_IN_SEARCH_RESULTS);
+        quickViewModal.typeQuantity(ITEM_QTY);
+        quickViewModal.selectSize(ProductSize.MEDIUM);
+        ProductData productData = quickViewModal.getProductData();
+        AddToCartInfoModal addToCartInfoModal = quickViewModal.clickAddToBagBtn();
+        pause(3);
+        addToCartInfoModal.verifyProductData(softAssert, productData);
+        CartPage cartPage = addToCartInfoModal.clickProceedToCheckoutBtn();
+        cartPage.clickProceedToCheckoutBtn();
+
+        createAnOrder(softAssert, UserType.NEW, userData, productData);
+
+        softAssert.assertAll();
+    }
+
+    private void createAnOrder(SoftAssert softAssert, UserType userType, UserData userData, ProductData productData) {
         //Create a new user
         AuthorizationPage authPage = new AuthorizationPage(getDriver());
         AddressesPage addressesPage;
@@ -70,6 +104,5 @@ public class OrderCreationTest extends BaseProjectTest {
         softAssert.assertEquals(orderSummaryPage.getOrderTotal(), expectedTotal, "Wrong order total on OrderSummaryPage!");
         OrderConfirmationPage orderConfirmationPage = orderSummaryPage.clickConfirmOrderBtn();
         softAssert.assertEquals(orderConfirmationPage.getOrderTotal(), expectedTotal, "Wrong order total on OrderConfirmationPage!");
-        softAssert.assertAll();
     }
 }
