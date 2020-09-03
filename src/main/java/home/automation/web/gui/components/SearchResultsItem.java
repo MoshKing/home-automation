@@ -2,6 +2,7 @@ package home.automation.web.gui.components;
 
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import home.automation.constant.ProjectConstants;
+import home.automation.constant.TimeConstants;
 import home.automation.web.gui.pages.ProductDetailPage;
 import home.automation.web.util.JSUtil;
 import org.openqa.selenium.SearchContext;
@@ -58,6 +59,6 @@ public class SearchResultsItem extends BaseProjectUIObject {
     }
 
     public boolean isInStock() {
-        return inStockLabel.isElementPresent(ProjectConstants.THREE_SEC_TIMEOUT);
+        return inStockLabel.isElementPresent(TimeConstants.THREE_SEC_TIMEOUT);
     }
 }

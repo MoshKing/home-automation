@@ -5,6 +5,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.annotations.DisableCacheLookup;
 import home.automation.constant.ConfigConstant;
 import home.automation.constant.ProjectConstants;
+import home.automation.constant.TimeConstants;
 import home.automation.web.domain.UserData;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -130,16 +131,16 @@ public class AccountCreationPage extends BaseProjectPage {
 
     public void validateRequiredFields(SoftAssert softAssert, List<String> expectedFields) {
         expectedFields.forEach(expectedField -> {
-            softAssert.assertTrue(inputLabel.format(expectedField, 1).isElementPresent(ProjectConstants.THREE_SEC_TIMEOUT),
+            softAssert.assertTrue(inputLabel.format(expectedField, 1).isElementPresent(TimeConstants.THREE_SEC_TIMEOUT),
                     String.format("'%s' field haven't required field marker!", inputLabel.format(expectedField, 1).getText()));
             if (expectedField.equals("First name") || expectedField.equals("Last name")) {
-                softAssert.assertTrue(inputLabel.format(expectedField, 2).isElementPresent(ProjectConstants.THREE_SEC_TIMEOUT),
+                softAssert.assertTrue(inputLabel.format(expectedField, 2).isElementPresent(TimeConstants.THREE_SEC_TIMEOUT),
                         String.format("'%s' field haven't required field marker!", inputLabel.format(expectedField, 1).getText()));
             }
         });
     }
 
     public boolean isErrorMessagesAlertPresent() {
-        return errorMessageAlert.isElementPresent(ProjectConstants.THREE_SEC_TIMEOUT);
+        return errorMessageAlert.isElementPresent(TimeConstants.THREE_SEC_TIMEOUT);
     }
 }

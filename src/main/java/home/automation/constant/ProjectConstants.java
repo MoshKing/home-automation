@@ -10,6 +10,7 @@ public class ProjectConstants {
 
     //Time Constants
     public static final int THREE_SEC_TIMEOUT = 3;
+    public static final int TWO_SEC_TIMEOUT = 2;
 
     private ProjectConstants() {
     }
