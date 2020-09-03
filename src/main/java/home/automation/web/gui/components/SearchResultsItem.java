@@ -15,7 +15,7 @@ public class SearchResultsItem extends BaseProjectUIObject {
     @FindBy(xpath = "//span[text()='More']")
     private ExtendedWebElement moreBtn;
 
-    @FindBy(xpath = "//div[@class='product-image-container']")
+    @FindBy(xpath = ".//div[@class='product-image-container']")
     private ExtendedWebElement itemImage;
 
     @FindBy(xpath = "//a[@class='quick-view']")
@@ -30,6 +30,9 @@ public class SearchResultsItem extends BaseProjectUIObject {
     @FindBy(xpath = ".//span[@itemprop='offers']")
     private ExtendedWebElement inStockLabel;
 
+    @FindBy(xpath = ".//a[contains(@class,'addToWishlist wishlistProd')]")
+    private ExtendedWebElement addToWishListBtn;
+
     public SearchResultsItem(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
     }
@@ -41,11 +44,7 @@ public class SearchResultsItem extends BaseProjectUIObject {
     }
 
     public void clickQuickViewBtn() {
-        new Actions(driver)
-                .moveToElement(itemImage.getElement())
-                .build()
-                .perform();
-        pause(1);
+        hoverItem();
         JSUtil.clickElement(driver, quickViewBtn);
     }
 
@@ -60,5 +59,18 @@ public class SearchResultsItem extends BaseProjectUIObject {
 
     public boolean isInStock() {
         return inStockLabel.isElementPresent(TimeConstants.THREE_SEC_TIMEOUT);
+    }
+
+    public void clickAddToWishList() {
+        hoverItem();
+        addToWishListBtn.click();
+    }
+
+    private void hoverItem() {
+        new Actions(driver)
+                .moveToElement(itemImage.getElement())
+                .build()
+                .perform();
+        pause(1);
     }
 }

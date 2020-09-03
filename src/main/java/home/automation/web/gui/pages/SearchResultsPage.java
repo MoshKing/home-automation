@@ -29,6 +29,12 @@ public class SearchResultsPage extends BaseProjectPage {
     @FindBy(xpath = "//select[@id='selectProductSort']")
     private ExtendedWebElement sortOptionSelect;
 
+    @FindBy(xpath = "//p[@class='fancybox-error']")
+    private ExtendedWebElement messageAfterWishListBtnClicked;
+
+    @FindBy(xpath = "//a[@title='Close']")
+    private ExtendedWebElement closeMessageBtn;
+
     public SearchResultsPage(WebDriver driver) {
         super(driver);
         setUiLoadedMarker(searchResultsHeading);
@@ -73,5 +79,13 @@ public class SearchResultsPage extends BaseProjectPage {
                 .filter(searchResultsItem -> searchResultsItem.isInStock())
                 .collect(Collectors.toList()).size() == searchResultsItems.size(),
                 "Search results have not 'In stock' products!");
+    }
+
+    public String getMessageAfterClickOnWishListBtn() {
+        return messageAfterWishListBtnClicked.getText();
+    }
+
+    public void clickCloseMessageBtn() {
+        closeMessageBtn.click();
     }
 }
